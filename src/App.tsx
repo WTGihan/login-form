@@ -1,14 +1,18 @@
 import React from "react";
-// import logo from './logo.svg';
 import "./App.css";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import "../node_modules/bootstrap/dist/css/bootstrap.css";
 import Login from "./components/Login";
 
 function App() {
   return (
-    <div className="App">
-      <Login />
-    </div>
+    <Router>
+      <div className="App">
+        <Switch>
+          <Route exact path="/" component={Login} />
+        </Switch>
+      </div>
+    </Router>
   );
 }
 

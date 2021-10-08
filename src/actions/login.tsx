@@ -1,10 +1,10 @@
 import * as loginActions from "../constants/login";
 
-export function setUsername(username: string) {
+export function setUseremail(useremail: string) {
   return {
-    type: loginActions.SET_USERNAME,
+    type: loginActions.SET_USEREMAIL,
     payload: {
-      username: username,
+      useremail: useremail,
     },
   };
 }
@@ -14,6 +14,15 @@ export function setPassword(password: string) {
     type: loginActions.SET_PASSWORD,
     payload: {
       password: password,
+    },
+  };
+}
+
+export function setLoginStatus(loginStatus: boolean) {
+  return {
+    type: loginActions.SET_LOGINSTATUS,
+    payload: {
+      loginStatus: loginStatus,
     },
   };
 }

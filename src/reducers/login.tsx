@@ -2,17 +2,24 @@ import * as loginActions from "../constants/login";
 
 export default function reducer(
   state = [],
-  action: { type: string; payload: { username: string; password: string } }
+  action: {
+    type: string;
+    payload: {
+      useremail: string;
+      password: string;
+      loginStatus: boolean;
+    };
+  }
 ): any {
-  if (action.type === loginActions.SET_USERNAME)
+  if (action.type === loginActions.SET_USEREMAIL)
     if (state === [])
       return [
         ...state,
         {
-          username: action.payload.username,
+          useremail: action.payload.useremail,
         },
       ];
-    else return { ...state, username: action.payload.username };
+    else return { ...state, useremail: action.payload.useremail };
   if (action.type === loginActions.SET_PASSWORD)
     if (state === [])
       return [
@@ -22,5 +29,14 @@ export default function reducer(
         },
       ];
     else return { ...state, password: action.payload.password };
+  if (action.type === loginActions.SET_LOGINSTATUS)
+    if (state === [])
+      return [
+        ...state,
+        {
+          loginStatus: action.payload.loginStatus,
+        },
+      ];
+    else return { ...state, loginStatus: action.payload.loginStatus };
   return state;
 }
