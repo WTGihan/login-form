@@ -1,55 +1,61 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import store from "../store/index";
-import { setUseremail, setPassword, setLoginStatus } from "../actions/login";
+import { setLoginStatus } from "../actions/login";
 import { useHistory } from "react-router-dom";
 
 function Login() {
   const history = useHistory();
-  const { dispatch, getState } = store;
-  //   const { useremail, password, loginStatus } = getState();
-  //   let loginEmail = "";
-  //   let loginPassword = "";
-  //   let loginUserStatus = "";
+  const { dispatch } = store;
+  const [user, setUser] = useState({
+    email: "",
+    password: "",
+  });
+  const [error, setError] = useState({
+    status: false,
+  });
 
-  //   store.subscribe(() => {
-  //     const { useremail, password, loginStatus } = getState();
-  //   });
+  const [loginStatusUser, setLoginStatusUser] = useState();
+
+  useEffect(() => {
+    const { loginStatus } = store.getState();
+    setLoginStatusUser(loginStatus);
+  }, [error]);
 
   const onInputChange: React.ChangeEventHandler<HTMLInputElement> = (event) => {
-    const inputValue: string = event.target.value;
-    event.target.name === "email"
-      ? dispatch(setUseremail(inputValue))
-      : dispatch(setPassword(inputValue));
+    const { name, value } = event.target;
+    setUser({ ...user, [name]: value });
   };
 
   const onSubmit = (event: any) => {
     event.preventDefault();
-    const { useremail, password } = getState();
+    let errorStatus: boolean;
     if (
-      useremail.toLowerCase() === "wtgihan@gmail.com" &&
-      password === "Hello@1998"
+      user.email.toLowerCase() === "wtgihan@gmail.com" &&
+      user.password === "1234"
     ) {
       dispatch(setLoginStatus(true));
-    } else dispatch(setLoginStatus(false));
+      errorStatus = false;
+    } else {
+      dispatch(setLoginStatus(false));
+      errorStatus = true;
+    }
 
     // reset inputs
-    dispatch(setUseremail(""));
-    dispatch(setPassword(""));
+    setError({ ...error, status: errorStatus });
+    setUser({ ...user, email: "", password: "" });
 
-    history.replace("/");
+    history.push("/");
   };
-
-  console.log(getState());
 
   return (
     <div className="container  w-50 m-auto">
       <div className="py-4">
         <h1 className="text-center mb-3">Login Form</h1>
-        {getState().loginStatus === true ? (
+        {loginStatusUser === true ? (
           <div className="alert alert-success" role="alert">
             Login is Success
           </div>
-        ) : getState().loginStatus === false ? (
+        ) : loginStatusUser === false ? (
           <div className="alert alert-danger" role="alert">
             Login is Failed
           </div>
@@ -64,7 +70,7 @@ function Login() {
                 className="form-control"
                 placeholder="Enter Email Here..."
                 name="email"
-                value={getState().useremail}
+                value={user.email}
                 onChange={(e) => onInputChange(e)}
                 required
               />
@@ -77,7 +83,7 @@ function Login() {
                 className="form-control"
                 placeholder="Enter Password Here..."
                 name="password"
-                value={getState().password}
+                value={user.password}
                 onChange={(e) => onInputChange(e)}
                 required
               />

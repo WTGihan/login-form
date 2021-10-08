@@ -17,6 +17,7 @@ export default function reducer(
         ...state,
         {
           useremail: action.payload.useremail,
+          loginStatus: "",
         },
       ];
     else return { ...state, useremail: action.payload.useremail };
