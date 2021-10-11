@@ -2,9 +2,17 @@ import React, { useState, useEffect } from "react";
 import store from "../store/index";
 import { setLoginStatus } from "../actions/login";
 import { useHistory } from "react-router-dom";
+import { useSelector } from "react-redux";
+
+interface loginProps {
+  loginStatus: boolean;
+}
 
 function Login() {
   const history = useHistory();
+  const { loginStatus } = useSelector((props: loginProps) => props);
+
+  console.log(loginStatus);
   const { dispatch } = store;
   const [user, setUser] = useState({
     email: "",
@@ -13,13 +21,6 @@ function Login() {
   const [error, setError] = useState({
     status: false,
   });
-
-  const [loginStatusUser, setLoginStatusUser] = useState();
-
-  useEffect(() => {
-    const { loginStatus } = store.getState();
-    setLoginStatusUser(loginStatus);
-  }, [error]);
 
   const onInputChange: React.ChangeEventHandler<HTMLInputElement> = (event) => {
     const { name, value } = event.target;
@@ -51,16 +52,14 @@ function Login() {
     <div className="container  w-50 m-auto">
       <div className="py-4">
         <h1 className="text-center mb-3">Login Form</h1>
-        {loginStatusUser === true ? (
+        {loginStatus ? (
           <div className="alert alert-success" role="alert">
             Login is Success
           </div>
-        ) : loginStatusUser === false ? (
+        ) : (
           <div className="alert alert-danger" role="alert">
             Login is Failed
           </div>
-        ) : (
-          ""
         )}
         <form className="mx-auto" onSubmit={(e) => onSubmit(e)}>
           <div className="form-group row mb-3 d-flex justify-content-center">
