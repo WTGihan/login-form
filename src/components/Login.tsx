@@ -1,25 +1,21 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import store from "../store/index";
-import { setLoginStatus } from "../actions/login";
+import { submitForm } from "../actions/login";
 import { useHistory } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 interface loginProps {
-  loginStatus: boolean;
+  loginStatus: string;
 }
 
 function Login() {
   const history = useHistory();
+  const { dispatch } = store;
   const { loginStatus } = useSelector((props: loginProps) => props);
 
-  console.log(loginStatus);
-  const { dispatch } = store;
   const [user, setUser] = useState({
     email: "",
     password: "",
-  });
-  const [error, setError] = useState({
-    status: false,
   });
 
   const onInputChange: React.ChangeEventHandler<HTMLInputElement> = (event) => {
@@ -29,22 +25,8 @@ function Login() {
 
   const onSubmit = (event: any) => {
     event.preventDefault();
-    let errorStatus: boolean;
-    if (
-      user.email.toLowerCase() === "wtgihan@gmail.com" &&
-      user.password === "1234"
-    ) {
-      dispatch(setLoginStatus(true));
-      errorStatus = false;
-    } else {
-      dispatch(setLoginStatus(false));
-      errorStatus = true;
-    }
-
-    // reset inputs
-    setError({ ...error, status: errorStatus });
-    setUser({ ...user, email: "", password: "" });
-
+    console.log(event);
+    dispatch(submitForm(user.email, user.password));
     history.push("/");
   };
 
@@ -52,14 +34,16 @@ function Login() {
     <div className="container  w-50 m-auto">
       <div className="py-4">
         <h1 className="text-center mb-3">Login Form</h1>
-        {loginStatus ? (
+        {loginStatus === "SUCCESS" ? (
           <div className="alert alert-success" role="alert">
             Login is Success
           </div>
-        ) : (
+        ) : loginStatus === "FAILED" ? (
           <div className="alert alert-danger" role="alert">
             Login is Failed
           </div>
+        ) : (
+          ""
         )}
         <form className="mx-auto" onSubmit={(e) => onSubmit(e)}>
           <div className="form-group row mb-3 d-flex justify-content-center">
