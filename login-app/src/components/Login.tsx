@@ -12,7 +12,7 @@ function Login() {
   const history = useHistory();
   const { dispatch } = store;
   const { loginStatus } = useSelector((props: loginProps) => props);
-
+  console.log(loginStatus);
   const [user, setUser] = useState({
     email: "",
     password: "",
@@ -23,9 +23,8 @@ function Login() {
     setUser({ ...user, [name]: value });
   };
 
-  const onSubmit = (event: any) => {
+  const onSubmit = (event: React.SyntheticEvent) => {
     event.preventDefault();
-    console.log(event);
     dispatch(submitForm(user.email, user.password));
     history.push("/");
   };

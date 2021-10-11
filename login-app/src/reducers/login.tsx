@@ -4,9 +4,9 @@ export default function reducer(
   state = { loginStatus: "PENDING" },
   action: {
     type: string;
-    loginStatus: boolean;
+    loginStatus: string;
   }
-): any {
+): { loginStatus: string } {
   switch (action.type) {
     case loginActions.LOGIN_STATUS:
       return {
