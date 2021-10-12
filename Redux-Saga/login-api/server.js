@@ -1,5 +1,6 @@
 const fastify = require("fastify")({ logger: true });
 
+// fastify.register();
 fastify.register(require("./routes/login.routes"));
 
 const PORT = 5000;

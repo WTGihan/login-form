@@ -15,6 +15,7 @@ const loginUserData = {
 };
 
 function loginRoutes(fastify, options, done) {
+  fastify.register(require("fastify-cors"));
   fastify.post("/login", loginUserData);
 
   done();
