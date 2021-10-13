@@ -4,7 +4,7 @@ export default function reducer(
   state = { loginStatus: "PENDING" },
   action: {
     type: string;
-    user: { email: string; password: string };
+    // user: { email: string; password: string };
     loginStatus: string;
   }
 ): { loginStatus: string } {

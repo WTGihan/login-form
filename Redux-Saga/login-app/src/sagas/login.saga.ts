@@ -1,7 +1,7 @@
 import { takeEvery, call, put } from "redux-saga/effects";
-import { LOGIN_USER } from "../constants/login.constants";
+import { LOGIN_USER, LOGIN_STATUS } from "../constants/login.constants";
 import { login } from "../api/login.api";
-import { loginDetails } from "../actions/login.action";
+// import { loginDetails } from "../actions/login.action";
 
 interface payloadProps {
   type: string;
@@ -14,7 +14,9 @@ function* handleLoginUser(payload: payloadProps) {
     // console.log("Login Saga", payload);
     const result: { loginStatus: string } = yield call(login, payload.user);
     // console.log("API Result=>", result);
-    yield put(loginDetails(result.loginStatus));
+    // can call directly to the reducer from this #Noted
+    // yield put(loginDetails(result.loginStatus));
+    yield put({ type: LOGIN_STATUS, loginStatus: result.loginStatus });
   } catch (error) {
     console.log("Error: ", error);
   }
